@@ -1,5 +1,10 @@
 package com.dev.security.api.input;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.dev.security.model.entity.Account;
+import com.dev.security.model.entity.Account.Role;
+
 import jakarta.validation.constraints.NotBlank;
 
 public record SignUpForm(
@@ -10,4 +15,12 @@ public record SignUpForm(
 	@NotBlank(message = "Please enter password.")
 	String password	) {
 
+	public Account entity(PasswordEncoder encoder) {
+		var account = new Account();
+		account.setName(name);
+		account.setEmail(username);
+		account.setRole(Role.Member);
+		account.setPassword(encoder.encode(password));
+		return account;
+	}
 }
