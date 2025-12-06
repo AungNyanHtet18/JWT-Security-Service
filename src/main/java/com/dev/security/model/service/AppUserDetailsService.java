@@ -27,8 +27,7 @@ public class AppUserDetailsService implements UserDetailsService{
 			  		.authorities(account.getRole().name())
 			  		.disabled(isDisabled(account))
 					.build())
-					.orElseThrow(() -> new UsernameNotFoundException(username));
-		
+					.orElseThrow(() -> new UsernameNotFoundException(username));	
 	}
 
 	private boolean isDisabled(Account account) {
