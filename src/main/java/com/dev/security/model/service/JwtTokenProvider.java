@@ -27,9 +27,9 @@ public class JwtTokenProvider {
 	
 	@Value("${app.jwt.issuer}")   //value injection
 	private String issuer;
-	@Value("${app.jwt.access-token}") 
+	@Value("${app.jwt.access-life}") 
 	private int accessLife;
-	@Value("${app.jwt.refresh-token}") 
+	@Value("${app.jwt.refresh-life}") 
 	private int refreshLife;
 	
 	public String generateAccessToken(Authentication authentication) {
