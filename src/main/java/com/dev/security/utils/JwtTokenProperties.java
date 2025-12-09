@@ -13,5 +13,4 @@ public class JwtTokenProperties {
 	 private String issuer;
 	 private int accessLife;
 	 private int refreshLife;
-	
 }

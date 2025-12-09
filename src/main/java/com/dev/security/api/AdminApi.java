@@ -2,6 +2,7 @@ package com.dev.security.api;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("admin")
 public class AdminApi {
 
+	@GetMapping
 	List<String> index() {
 		 return List.of("Message from Admin api.");
 	}

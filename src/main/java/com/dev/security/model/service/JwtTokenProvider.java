@@ -13,6 +13,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import com.dev.security.utils.exception.TokenExpirationException;
+import com.dev.security.utils.exception.TokenInvalidException;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import jakarta.validation.constraints.NotBlank;
 
@@ -74,20 +79,26 @@ public class JwtTokenProvider {
 	}
 	
 	private Authentication parse(String token, Type type) {
-			
-		var payLoad = Jwts.parser()
-						  .verifyWith(secret)
-						  .requireIssuer(issuer)
-						  .require("type", type.name())
-						  .build()
-						  .parseSignedClaims(token).getPayload();
 		
-		var username = payLoad.getSubject();
-		var roles = Arrays.stream(payLoad.get("role", String.class)
-						.split(",")) //"ADMIN,USER,MANAGER"
-						.map(a -> new SimpleGrantedAuthority(a)) 
-						.toList();   //List <SimpleGrantedAuthority>
-		
-		return UsernamePasswordAuthenticationToken.authenticated(username, null, roles);
+	   try {
+			var payLoad = Jwts.parser()
+								  .verifyWith(secret)
+								  .requireIssuer(issuer)
+								  .require("type", type.name())
+								  .build()
+								  .parseSignedClaims(token).getPayload();
+				
+				var username = payLoad.getSubject();
+				var roles = Arrays.stream(payLoad.get("role", String.class)
+								.split(",")) //"ADMIN,USER,MANAGER"
+								.map(a -> new SimpleGrantedAuthority(a)) 
+								.toList();   //List <SimpleGrantedAuthority>
+				
+				return UsernamePasswordAuthenticationToken.authenticated(username, null, roles);
+		} catch(ExpiredJwtException e) {
+			   throw new TokenExpirationException("%s token is expired".formatted(type));
+		} catch(JwtException e) {
+			    throw new TokenInvalidException("Invalid %s token.".formatted(type), e);
+		}
 	}
 }

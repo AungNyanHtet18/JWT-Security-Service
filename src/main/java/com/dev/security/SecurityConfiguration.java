@@ -19,6 +19,7 @@ import com.dev.security.model.entity.Account;
 import com.dev.security.model.entity.Account.Role;
 import com.dev.security.model.repo.AccountRepo;
 import com.dev.security.model.service.JwtTokenFilter;
+import com.dev.security.utils.exception.SecurityExceptionHandler;
 
 
 @Configuration
@@ -40,6 +41,14 @@ public class SecurityConfiguration {
 		 });
 		 
 		 http.addFilterAfter(jwtTokenFilter(), ExceptionTranslationFilter.class); //jwtTokeFilter runs after ExceptionTranslationFilter
+		 //ExceptionTranslationFilter handle authentication and authorization exception
+		 
+		 http.exceptionHandling(exception -> {
+			  exception.authenticationEntryPoint(securityExceptionHandler());
+			  exception.accessDeniedHandler(securityExceptionHandler());
+		 });
+		 
+		 
 		 
 		 return http.build();
 	}
@@ -48,7 +57,6 @@ public class SecurityConfiguration {
 	PasswordEncoder passwordEncoder() {
 		 return new BCryptPasswordEncoder();
 	}
-	
 	
 	@Bean
 	JwtTokenFilter jwtTokenFilter() {
@@ -74,5 +82,10 @@ public class SecurityConfiguration {
 			   }
 		 };
 	} //Run this bean  when application builds
+	
+	@Bean
+	SecurityExceptionHandler securityExceptionHandler() {
+		 return new SecurityExceptionHandler();
+	}
 	
 }
