@@ -26,7 +26,7 @@ public class AuthApi {
 	}
 	
 	@PostMapping("refresh")
-	AuthResult signUp(@RequestBody @Validated RefreshForm form) {
+	AuthResult refresh(@RequestBody @Validated RefreshForm form) {
 		 return authService.refresh(form);
 	}
 	

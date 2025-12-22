@@ -1,5 +1,7 @@
 package com.dev.security.api.input;
 
+import java.time.LocalDateTime;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.dev.security.model.entity.Account;
@@ -21,6 +23,7 @@ public record SignUpForm(
 		account.setEmail(username);
 		account.setRole(Role.Member);
 		account.setPassword(encoder.encode(password));
+		account.setActivatedAt(LocalDateTime.now());
 		return account;
 	}
 }

@@ -12,14 +12,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-
 import com.dev.security.utils.exception.TokenExpirationException;
 import com.dev.security.utils.exception.TokenInvalidException;
-
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import jakarta.validation.constraints.NotBlank;
 
 @Service
 public class JwtTokenProvider {
@@ -50,7 +47,7 @@ public class JwtTokenProvider {
 		return parse(token, Type.Access);
 	}
 	
-	public Authentication parseRefreshToken(@NotBlank(message = "Please enter refresh token.") String token) {
+	public Authentication parseRefreshToken(String token) {
 		return parse(token, Type.Refresh);
 	}
 	
@@ -69,7 +66,7 @@ public class JwtTokenProvider {
 		return Jwts.builder()
 					.subject(authentication.getName())
 					.claim("role", authentication.getAuthorities().stream()
-							.map(a -> a.getAuthority()).collect(Collectors.joining(","))) // passing String Array ( ["ROLE_ADMIN", "ROLE_USER"] ) 
+							.map(a -> a.getAuthority()).collect(Collectors.joining(","))) // passing String ( "ROLE_USER,ROLE_ADMIN") 
 					.claim("type", type.name())
 					.signWith(secret)
 					.issuer(issuer)
