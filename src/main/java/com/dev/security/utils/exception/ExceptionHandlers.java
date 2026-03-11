@@ -4,7 +4,10 @@ import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -27,12 +30,18 @@ public class ExceptionHandlers {
 		 return List.of(e.getMessage());
 	}
 	
+	
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	List<String> handle(AuthenticationException e) {
-		 return List.of(e.getMessage());
+		 return switch(e) {
+		 case UsernameNotFoundException  exception -> List.of("Please check your login id.");
+		 case BadCredentialsException  exception -> List.of("Please check your password.");
+		 case DisabledException exception -> List.of("Your account is disabled.");
+		 case TokenInvalidException Exception -> List.of("Your access token is invalid.");
+		 default -> List.of("Authentication Failure.");
+		 };
 	}
-	
 	
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.FORBIDDEN)
