@@ -18,6 +18,12 @@ public class ExceptionHandlers {
 
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	List<String> handle(AppBusinessException e) {
+		 return List.of(e.getMessage());
+	}
+	
+	@ExceptionHandler
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	List<String> handle(MethodArgumentNotValidException e) {
 		 return e.getFieldErrors().stream()
 				 .map(a -> a.getDefaultMessage())
@@ -35,10 +41,10 @@ public class ExceptionHandlers {
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	List<String> handle(AuthenticationException e) {
 		 return switch(e) {
-		 case UsernameNotFoundException  exception -> List.of("Please check your login id.");
+		 case UsernameNotFoundException  exception -> List.of("Please check your email.");
 		 case BadCredentialsException  exception -> List.of("Please check your password.");
 		 case DisabledException exception -> List.of("Your account is disabled.");
-		 case TokenInvalidException Exception -> List.of("Your access token is invalid.");
+		 case TokenInvalidException exception -> List.of(e.getMessage());
 		 default -> List.of("Authentication Failure.");
 		 };
 	}

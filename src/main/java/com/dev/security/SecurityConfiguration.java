@@ -48,8 +48,6 @@ public class SecurityConfiguration {
 			  exception.accessDeniedHandler(securityExceptionHandler());
 		 });
 		 
-		 
-		 
 		 return http.build();
 	}
 	

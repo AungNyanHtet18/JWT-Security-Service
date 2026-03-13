@@ -21,10 +21,10 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		var jwtToken = request.getHeader("Authorization");   // Return JWT token after retrieving value in Authorization
+		var jwtToken = request.getHeader("Authorization");   // JWT token after retrieving value in Authorization header
 		
 		if(StringUtils.hasLength(jwtToken)) {
-			var authentication = tokenProvider.parseAccessToken(jwtToken); //Retrieve authentication object by passing jwt token for jwt provider
+			var authentication = tokenProvider.parseAccessToken(jwtToken); //Retrieve authentication object by passing JWT token for token provider
 			
 			if(null != authentication) {
 				 SecurityContextHolder.getContext()
