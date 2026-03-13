@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 public class AccountComfirmationService {
 
 	public void sendComfirmMail(String email, String otpCode) {
-		
+		System.out.println("update github folder");
 		
 	}
 
