@@ -19,7 +19,9 @@ public class ActivationApi {
 	
 	@PostMapping
 	ActivationResult activate(@Validated @RequestBody ActivationForm form) {
-		 return accountService.activate(form);
+		
+		//Activation with OTP code from email
+		return accountService.activate(form); 
 	}
 	
 }
