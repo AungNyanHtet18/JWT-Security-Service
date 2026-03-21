@@ -52,8 +52,12 @@ public class AccountService {
         						 .orElseThrow(() -> new AppBusinessException("Invalid Account Id."));
     	
         
+        if(null != account.getActivatedAt()) {
+        	 throw new AppBusinessException("Account had been activated.");
+        }
+        
         if(!passwordEncoder.matches(form.otpCode(), account.getPassword())) {
-        	 throw new AppBusinessException("Invalid OTP Code");
+        	 throw new AppBusinessException("Invalid OTP Code.");
         }
         
         account.setPassword(passwordEncoder.encode(form.password()));
