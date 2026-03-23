@@ -1,7 +1,7 @@
 'use client'
+
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
-
 
 export default function SignOutButton() {
 
@@ -10,7 +10,6 @@ export default function SignOutButton() {
     const onSignOut = () => {
          router.replace('/signin')
     }
-
 
      return (
         <button type="button" onClick={onSignOut} className="flex items-center gap-1  cursor-pointer">

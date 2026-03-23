@@ -20,19 +20,19 @@ export default function SignInPage() {
         }
     })
 
-    const signInAction = (form: SignInForm) => {
+    const onSignIn = (form: SignInForm) => {
         const routerUrl = `/${form.password.toLocaleLowerCase()}`
         router.replace(routerUrl)
     }
 
     return (
-        <div>
-            <h1 className="flex items-center gap-2">
+        <div className="space-y-4">
+            <h1 className="flex items-center gap-2 font-bold">
                 <LogIn/> <span className="text-2xl">Sign In</span>
             </h1>
 
-            <form onSubmit={form.handleSubmit(signInAction)} className="space-y-4">
-                <FormsInput controls={form.control} path="email" label="Login ID" />
+            <form onSubmit={form.handleSubmit(onSignIn)} className="space-y-4">
+                <FormsInput controls={form.control} path="email" label="Login ID" type="email" />
                 <FormsInput controls={form.control} path="password" label="Password" />
 
                 <nav>

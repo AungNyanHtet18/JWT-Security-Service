@@ -15,9 +15,12 @@ export const SignInFormSchema = z.object({
 export type SignInForm = z.infer<typeof SignInFormSchema>
 
 export const ActivationFormSchema = z.object({
-    userId: z.string().nonempty("Please enter user id."),
     otpCode: z.string().nonempty("Please enter OTP code."),
-    password: z.string().nonempty("Please enter password.")
+    password: z.string().nonempty("Please enter password."),
+    comfirmPassword: z.string()
+}).refine(data => data.password === data.comfirmPassword, {
+     message: "Password don't match",
+     path: ["comfirmPassword"]
 })
 
 export type ActivationForm = z.infer<typeof ActivationFormSchema>

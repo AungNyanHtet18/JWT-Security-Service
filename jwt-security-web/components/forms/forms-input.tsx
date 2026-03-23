@@ -6,7 +6,7 @@ import { Input } from "../ui/input";
 type FormsInputProps<T extends FieldValues> = {
     controls: Control<T>,
     path: Path<T>,
-    label: string,
+    label?: string,
     type?:  HTMLInputTypeAttribute
 }
 
