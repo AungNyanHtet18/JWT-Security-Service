@@ -4,7 +4,7 @@ import FormsInput from "@/components/forms/forms-input"
 import { Button } from "@/components/ui/button"
 import { SignInForm, SignInFormSchema } from "@/lib/form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { LogIn, Unlock, UnlockIcon } from "lucide-react"
+import { LogIn, Unlock} from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 
@@ -40,9 +40,7 @@ export default function SignInPage() {
                         <Unlock/> Sign In
                     </Button>
                 </nav>
-
             </form>
-
         </div>
      )
 }
